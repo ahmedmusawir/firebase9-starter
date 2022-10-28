@@ -9,15 +9,11 @@ function BlogIndex() {
   const { state, dispatch } = useContext(PostsContext);
   const url = `https://jsonplaceholder.typicode.com/posts/`;
 
-  const deleteData = async (id) => {
+  const deletePost = async (id) => {
     await fetch(`${url}${id}`, {
       method: "DELETE",
     });
-  };
-
-  const deletePost = (id) => {
-    deleteData(id);
-    // dispatch({ type: "REMOVE_POST", payload: id });
+    dispatch({ type: "REMOVE_POST", payload: id });
   };
 
   return (
@@ -39,7 +35,7 @@ function BlogIndex() {
                   className="btn btn-danger"
                   onClick={() => deletePost(post.id)}
                 >
-                  <i class="bi bi-trash-fill pe-2"></i>
+                  <i className="bi bi-trash-fill pe-2"></i>
                   Delete
                 </button>
               </Col>

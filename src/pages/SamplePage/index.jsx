@@ -10,7 +10,7 @@ function SamplePage() {
         <Col sm={12}>
           <Content width="w-100" cssClassNames="bg-light">
             <h1 className="text-nihad-color">
-              <i class="bi bi-apple"></i>This is the Sample Page
+              <i className="bi bi-apple"></i>This is the Sample Page
             </h1>
             <h4 className="text-bibo-color">COPY ME ...</h4>
             <p className="text-nimat-color">

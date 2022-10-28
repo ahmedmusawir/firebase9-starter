@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { ListGroup, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-import { ListGroup, Spinner } from "react-bootstrap";
-import { useRealtimeData } from "../hooks/useRealtimeData";
+import { db } from "../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
 
 function BlogIndex() {
-  const { docs: posts, isPending } = useRealtimeData("posts");
+  const [posts, setPosts] = useState(null);
+  const [isPending, setIsPending] = useState(null);
+
+  useEffect(() => {
+    const ref = collection(db, "posts");
+
+    setIsPending(true);
+    getDocs(ref).then((snapshot) => {
+      let results = [];
+      snapshot.docs.forEach((doc) => {
+        results.push({ id: doc.id, ...doc.data() });
+      });
+      setPosts(results);
+      setIsPending(false);
+    });
+  }, []);
 
   return (
     <ListGroup variant="flush">

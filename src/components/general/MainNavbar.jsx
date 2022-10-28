@@ -17,21 +17,21 @@ function MainNavbar(props) {
             </Nav.Link>
           </Nav>
           <Nav.Link
-            className="btn btn-secondary py-2 px-3 ms-1 text-light ms-auto"
+            className="btn btn-secondary py-2 px-3 text-light"
             as={Link}
             to="/login"
           >
             Login
           </Nav.Link>
           <Nav.Link
-            className="btn btn-success py-2 px-3 ms-1 text-light ms-auto"
+            className="btn btn-success py-2 px-3 ms-1 text-light"
             as={Link}
             to="/signup"
           >
             Signup
           </Nav.Link>
           <Nav.Link
-            className="btn btn-danger py-2 px-3 ms-1 text-light ms-auto"
+            className="btn btn-danger py-2 px-3 ms-1 text-light"
             as={Link}
             to="#"
           >
@@ -42,7 +42,5 @@ function MainNavbar(props) {
     </Navbar>
   );
 }
-
-MainNavbar.propTypes = {};
 
 export default MainNavbar;

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 import FormikControl from "./formik/FormikControl";
 import * as Yup from "yup";
@@ -98,7 +97,5 @@ function PostForm() {
     </Formik>
   );
 }
-
-PostForm.propTypes = {};
 
 export default PostForm;
