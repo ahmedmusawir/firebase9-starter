@@ -1,0 +1,22 @@
+// UPDATING MAIN COLORS
+$primary: #fa8072;
+$danger: #e0115f;
+$info: #c71585;
+$warning: #ffd700;
+$enable-rounded: false;
+
+// IMPORT FUNCTIONS AND VARIABLES FROM BOOTSTRAP
+@import "../node_modules/bootstrap/scss/_functions";
+@import "../node_modules/bootstrap/scss/_variables";
+
+// ADDING CUSTOM THEME COLORS
+$custom-theme-colors: (
+  "bibo-color": #c71585,
+  "nihad-color": #c21e56,
+  "nimat-color": #ff007f,
+);
+
+$theme-colors: map-merge($custom-theme-colors, $theme-colors);
+
+// IMPORT BOOTSTRAP 5 SCSS
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
