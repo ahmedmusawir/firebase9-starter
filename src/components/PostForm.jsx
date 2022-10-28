@@ -3,29 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import FormikControl from "./formik/FormikControl";
 import * as Yup from "yup";
-import { v4 as uuid } from "uuid";
-import { PostsContext } from "../contexts/PostsContext";
+import { db } from "../firebase/config";
+import { collection, addDoc } from "firebase/firestore";
 
 function PostForm() {
-  const { state, dispatch } = useContext(PostsContext);
   const navigate = useNavigate();
-  const url = "https://jsonplaceholder.typicode.com/posts";
 
   const postData = async (post) => {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(post),
+    const ref = collection(db, "posts");
+
+    await addDoc(ref, {
+      title: post.title,
+      body: post.body,
     });
-    const json = await res.json();
   };
 
   //   FORMIK INFO
   const initialValues = {
-    userId: 1,
-    id: uuid(),
     title: "",
     body: "",
   };
@@ -34,11 +28,9 @@ function PostForm() {
     resetForm({ values: initialValues });
 
     const singlePost = {
-      userId: 1,
       ...values,
     };
     postData(singlePost);
-    dispatch({ type: "ADD_POST", payload: singlePost });
     navigate("/");
   };
   const validationSchema = Yup.object({
