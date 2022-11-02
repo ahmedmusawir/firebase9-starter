@@ -5,7 +5,7 @@ import Content from "../../components/layouts/Content";
 
 function SamplePage() {
   return (
-    <Page wide={true} pageTitle="Movie Form">
+    <Page wide={false} pageTitle="Movie Form">
       <Row className="justify-content-center">
         <Col sm={12}>
           <Content width="w-100" cssClassNames="bg-light">

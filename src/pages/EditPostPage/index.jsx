@@ -8,13 +8,21 @@ import EditForm from "../../components/EditForm";
 function EditPostPage() {
   const { id } = useParams();
   return (
-    <Page wide={true} pageTitle="Movie Form">
+    <Page wide={false} pageTitle="Movie Form">
       <Row className="justify-content-center">
         <Col sm={12}>
           <Content width="w-100" cssClassNames="bg-light">
-            <h1>Edit Post</h1>
-            <h4>Post ID: {id}</h4>
-            <EditForm />
+            <h3 className="text-nihad-color">
+              <i class="bi bi-pencil-square"></i> Edit Post
+            </h3>
+            <h5>Post ID: {id}</h5>
+          </Content>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col sm={12}>
+          <Content width="w-100" cssClassNames="bg-light">
+            <EditForm id={id} />
           </Content>
         </Col>
       </Row>

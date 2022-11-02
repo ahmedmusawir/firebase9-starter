@@ -1,17 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { ListGroup, Spinner } from "react-bootstrap";
 import { db } from "../firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
 import { useRealtimeData } from "../hooks/useRealtimeData";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 function BlogIndex() {
   const { docs: posts, isPending } = useRealtimeData("posts");
 
-  const deletePost = async (id) => {
+  const handleClickDelete = async (id) => {
     const ref = doc(db, "posts", id);
     await deleteDoc(ref);
+  };
+
+  const deletePost = (id) => {
+    confirmAlert({
+      title: "Please Confirm!",
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => handleClickDelete(id),
+        },
+        {
+          label: "No",
+          onClick: () => null,
+        },
+      ],
+    });
   };
 
   return (

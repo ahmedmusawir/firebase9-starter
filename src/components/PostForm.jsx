@@ -81,7 +81,7 @@ function PostForm() {
           <button className="btn btn-primary" type="submit">
             Submit
           </button>
-          <button className="btn btn-warning ml-1" type="reset">
+          <button className="btn btn-warning ms-2" type="reset">
             Reset
           </button>
         </Form>

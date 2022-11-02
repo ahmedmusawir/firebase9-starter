@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import Content from "./layouts/Content";
-import { useParams } from "react-router-dom";
 import { db } from "../firebase/config";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 
@@ -27,6 +25,7 @@ function SinglePost({ id }) {
 
     return () => unsub();
   }, [id]);
+
   return (
     <>
       {isPending && (

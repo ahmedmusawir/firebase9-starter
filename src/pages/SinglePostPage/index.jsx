@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Page from "../../components/layouts/Page";
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -11,13 +11,13 @@ function SinglePostPage() {
 
   return (
     <>
-      <Page wide={true} pageTitle="Movie Form">
+      <Page wide={false} pageTitle="Movie Form">
         <Row className="justify-content-center">
           <Col sm={12}>
             <Content width="w-100" cssClassNames="bg-light">
-              <h1 className="text-nihad-color">
+              <h3 className="text-nihad-color">
                 <i className="bi bi-sticky"></i> Single Post
-              </h1>
+              </h3>
             </Content>
           </Col>
         </Row>

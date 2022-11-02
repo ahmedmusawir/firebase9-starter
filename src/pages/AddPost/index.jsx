@@ -6,11 +6,19 @@ import PostForm from "../../components/PostForm";
 
 function AddPostPage() {
   return (
-    <Page wide={true} pageTitle="Movie Form">
+    <Page wide={false} pageTitle="Movie Form">
       <Row className="justify-content-center">
         <Col sm={12}>
           <Content width="w-100" cssClassNames="bg-light">
-            <h1>Add Post</h1>
+            <h3 className="text-nihad-color">
+              <i class="bi bi-file-earmark-plus"></i> Add Post
+            </h3>
+          </Content>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col sm={12}>
+          <Content width="w-100" cssClassNames="bg-light">
             <PostForm />
           </Content>
         </Col>

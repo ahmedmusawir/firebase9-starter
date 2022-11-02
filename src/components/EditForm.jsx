@@ -1,116 +1,133 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { Spinner } from "react-bootstrap";
+import Content from "./layouts/Content";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 import FormikControl from "./formik/FormikControl";
 import * as Yup from "yup";
-import _ from "lodash";
-import { useParams } from "react-router-dom";
-import { PostsContext } from "../contexts/PostsContext";
+import { db } from "../firebase/config";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 
-function EditForm() {
-  const { id } = useParams();
-  const { state, dispatch } = useContext(PostsContext);
-  // console.log("State from Context:", state);
+function EditForm({ id }) {
   const navigate = useNavigate();
-  const url = "https://jsonplaceholder.typicode.com/posts/" + id;
+  const [isPending, setIsPending] = useState(false);
+  const [singlePost, setSinglePost] = useState(null);
 
-  console.log(url);
+  useEffect(() => {
+    // CREATING DB REF W/ COLLECTION
+    const ref = doc(db, "posts", id);
 
-  const postData = async (post) => {
-    const res = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(post),
+    setIsPending(true);
+
+    const unsub = onSnapshot(ref, (doc) => {
+      setSinglePost(doc.data());
+      setIsPending(false); // has to be inside the function. otherwise spinner won't show up
     });
-    // const json = await res.json();
+
+    return () => unsub();
+  }, [id]);
+
+  // INSERTING DATA INTO FIRESTORE DB
+  const postData = (editedPost) => {
+    // CREATING DB REF W/ COLLECTION
+    const ref = doc(db, "posts", id);
+    // UPDATING DATA IN DB
+    updateDoc(ref, editedPost).then(() => {
+      console.log("Data Updated", editedPost);
+    });
   };
 
-  let singlePost;
-  singlePost = _.find(state.posts, (post) => post.id.toString() === id);
-  // singlePost = _.find(state.posts, (post) => post.id === Number(id)); // didn't work with uuid
-  // console.log("State Posts", state.posts);
-  // console.log("single Post", singlePost);
+  // FORMIK INFO
+  let initialValues = "";
+  // ADDING INITIAL VALUES WHEN THE singlePost IS AVAILABLE. MUST CHECK FOR AVAILABIITIES.
+  if (singlePost) {
+    initialValues = {
+      title: singlePost.title,
+      body: singlePost.body,
+    };
+  }
 
-  //   FORMIK INFO
-  const initialValues = {
-    userId: singlePost.userId,
-    id: singlePost.id,
-    title: singlePost.title,
-    body: singlePost.body,
-  };
+  // FORMIK SUBMIT WITH EDITED VALUES AND FORM RESET
   const onSubmit = (values, { resetForm }) => {
-    console.log("ON SUBMIT", values);
+    // console.log("ON SUBMIT", values);
     resetForm({ values: initialValues });
 
+    // ADDING EDITED VALUES ON SUBMIT
     const editedSinglePost = {
-      userId: 1,
       ...values,
     };
-    console.log("EDITED SINGLE POST:", editedSinglePost);
+    // console.log("EDITED SINGLE POST:", editedSinglePost);
+    // POSTING DATA TO FIRESTORE 9
     postData(editedSinglePost);
-    dispatch({ type: "EDIT_POST", payload: editedSinglePost });
+    // REDIRECTING TO HOME PAGE UPON POSTING DATA
     navigate("/");
   };
+  // FORM VALIDATION LOGIC W/ YUP
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is Required!"),
     body: Yup.string().required("Content is Required!"),
   });
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}
-    >
-      {(formik) => (
-        <Form className="p-3 bg-light formik-comp">
-          {/* BOOK TITLE */}
-          <div className="mb-2">
-            <FormikControl
-              control="input"
-              type="text"
-              name="title"
-              label="Post Title"
-              placeholder="Title of the Post"
-              className={
-                formik.touched.title && formik.errors.title
-                  ? "form-control is-invalid"
-                  : "form-control"
-              }
-            />
-          </div>
-
-          {/* TEXT AREA */}
-          <div className="mb-3">
-            <FormikControl
-              control="textarea"
-              name="body"
-              label="Post Content"
-              placeholder="Content"
-              rows={4}
-              className={
-                formik.touched.body && formik.errors.body
-                  ? "form-control is-invalid"
-                  : "form-control"
-              }
-            />
-          </div>
-          <hr className="bg-primary" />
-          <button className="btn btn-primary" type="submit">
-            Submit
-          </button>
-          <button className="btn btn-warning ml-1" type="reset">
-            Reset
-          </button>
-        </Form>
+    <>
+      {isPending && (
+        <Content width="w-100" cssClassNames="h-100 row align-items-center">
+          <Spinner className="mx-auto" animation="border" variant="info" />
+        </Content>
       )}
-    </Formik>
+      {/* ALWAYS CHECK FOR singlePost AVAILABILITY OTHERWISE setSinglePost VALUE WILL BE NULL */}
+      {singlePost && (
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
+          {(formik) => (
+            <Form className="p-3 bg-light formik-comp">
+              {/* POST TITLE */}
+              <div className="mb-2">
+                <FormikControl
+                  control="input"
+                  type="text"
+                  name="title"
+                  label="Post Title"
+                  placeholder="Title of the Post"
+                  className={
+                    formik.touched.title && formik.errors.title
+                      ? "form-control is-invalid"
+                      : "form-control"
+                  }
+                />
+              </div>
+
+              {/* POST CONTENT */}
+              <div className="mb-3">
+                <FormikControl
+                  control="textarea"
+                  name="body"
+                  label="Post Content"
+                  placeholder="Content"
+                  rows={4}
+                  className={
+                    formik.touched.body && formik.errors.body
+                      ? "form-control is-invalid"
+                      : "form-control"
+                  }
+                />
+              </div>
+              <hr className="bg-primary" />
+              <button className="btn btn-primary" type="submit">
+                Submit
+              </button>
+              <button className="btn btn-warning ms-2" type="reset">
+                Reset
+              </button>
+            </Form>
+          )}
+        </Formik>
+      )}
+    </>
   );
 }
-
-EditForm.propTypes = {};
 
 export default EditForm;
