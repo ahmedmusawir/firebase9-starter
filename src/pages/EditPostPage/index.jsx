@@ -13,7 +13,7 @@ function EditPostPage() {
         <Col sm={12}>
           <Content width="w-100" cssClassNames="bg-light">
             <h3 className="text-nihad-color">
-              <i class="bi bi-pencil-square"></i> Edit Post
+              <i className="bi bi-pencil-square"></i> Edit Post
             </h3>
             <h5>Post ID: {id}</h5>
           </Content>

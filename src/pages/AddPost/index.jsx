@@ -11,7 +11,7 @@ function AddPostPage() {
         <Col sm={12}>
           <Content width="w-100" cssClassNames="bg-light">
             <h3 className="text-nihad-color">
-              <i class="bi bi-file-earmark-plus"></i> Add Post
+              <i className="bi bi-file-earmark-plus"></i> Add Post
             </h3>
           </Content>
         </Col>

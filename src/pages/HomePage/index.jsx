@@ -12,14 +12,14 @@ function HomePage() {
         <Col sm={12}>
           <Content width="w-100" cssClassNames="bg-light clearfix">
             <h3 className="text-bibo-color">
-              <i class="bi bi-fire"></i> Firebase 9 Starter
+              <i className="bi bi-fire"></i> Firebase 9 Starter
             </h3>
             <h5>Project Name: Firebase 9 Start</h5>
             <li>DB Name: Firebase 9 Start</li>
             <li>Collection: posts</li>
             <div className="d-flex justify-content-end">
               <Link to="/add-post" className="btn btn-info mt-2">
-                <i className="bi bi-palette2 pe-2"></i>Add New Post
+                <i className="bi bi-palette2 pe-2"></i> Add New Post
               </Link>
             </div>
           </Content>
