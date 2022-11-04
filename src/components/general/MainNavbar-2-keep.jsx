@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { useTheme } from "../../hooks/useTheme";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 function MainNavbar(props) {
-  const { color, changeColor } = useTheme();
+  const { color } = useContext(ThemeContext);
 
   return (
     // <Navbar bg="light" expand="md">
-    <Navbar bg={color} expand="md" onClick={() => changeColor("warning")}>
+    <Navbar bg={color} expand="md">
       <Container>
         <Navbar.Brand as={Link} to="/">
           FB9 Starter BootSass 5

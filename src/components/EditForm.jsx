@@ -72,7 +72,11 @@ function EditForm({ id }) {
     <>
       {isPending && (
         <Content width="w-100" cssClassNames="h-100 row align-items-center">
-          <Spinner className="mx-auto" animation="border" variant="info" />
+          <Spinner
+            className="mx-auto"
+            animation="border"
+            variant="nimat-color"
+          />
         </Content>
       )}
       {/* ALWAYS CHECK FOR singlePost AVAILABILITY OTHERWISE setSinglePost VALUE WILL BE NULL */}

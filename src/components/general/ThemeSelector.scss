@@ -1,0 +1,22 @@
+.theme-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 10px 33px;
+  //   border: 1px dotted red;
+}
+.theme-buttons div {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: 15px;
+  border-radius: 50%;
+  //   border: 1px dotted black;
+}
+
+.bi.bi-brightness-high,
+.bi.bi-brightness-high-fill {
+  font-size: 1.5rem;
+}

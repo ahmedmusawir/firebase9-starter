@@ -4,13 +4,22 @@ import Page from "../../components/layouts/Page";
 import Content from "../../components/layouts/Content";
 import { Link } from "react-router-dom";
 import BlogIndex from "../../components/BlogIndex";
+import { useTheme } from "../../hooks/useTheme";
 
 function HomePage() {
+  const { mode } = useTheme();
   return (
     <Page wide={false} pageTitle="React FB9">
       <Row className="">
         <Col sm={12}>
-          <Content width="w-100" cssClassNames="bg-light clearfix">
+          <Content
+            width="w-100"
+            cssClassNames={
+              mode === "dark"
+                ? `bg-dark text-light clearfix ps-5 pt-5`
+                : `bg-light clearfix ps-5 pt-5`
+            }
+          >
             <h3 className="text-bibo-color">
               <i className="bi bi-fire"></i> Firebase 9 Starter
             </h3>
@@ -27,7 +36,15 @@ function HomePage() {
       </Row>
       <Row className="">
         <Col sm={12}>
-          <Content width="w-100" cssClassNames="bg-light clearfix">
+          {/* <Content width="w-100" cssClassNames="bg-light clearfix"> */}
+          <Content
+            width="w-100"
+            cssClassNames={
+              mode === "dark"
+                ? `bg-dark text-light clearfix`
+                : `bg-light clearfix`
+            }
+          >
             <BlogIndex />
           </Content>
         </Col>

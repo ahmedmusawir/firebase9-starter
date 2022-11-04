@@ -8,14 +8,18 @@ import SamplePage from "./pages/SamplePage";
 import AddPostPage from "./pages/AddPost";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
+import ThemeSelector from "./components/general/ThemeSelector";
+import { useTheme } from "./hooks/useTheme";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./App.scss";
 
 function App() {
+  const { mode } = useTheme();
   return (
-    <div className="App">
+    <div className={`App ${mode}`}>
       <BrowserRouter>
         <MainNavbar />
+        <ThemeSelector />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/post/:id" element={<SinglePostPage />} />
