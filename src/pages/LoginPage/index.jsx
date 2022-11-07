@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import { useLogin } from "../../hooks/useLogin";
+import { useNavigate } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import Page from "../../components/layouts/Page";
 import Content from "../../components/layouts/Content";
-import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import FormikControl from "../../components/formik/FormikControl";
 import * as Yup from "yup";
 
 function LoginPage() {
+  // const [email, setEmail] = useState(null);
+  // const [password, setPassword] = useState(null);
+  const { error, login } = useLogin();
+
   const navigate = useNavigate();
 
   //   FORMIK INFO
@@ -19,7 +24,13 @@ function LoginPage() {
     console.log(values);
     resetForm({ values: initialValues });
 
-    navigate("/");
+    // DESTRUCTURING EMAIL & PASSWORD
+    const { email, password } = values;
+
+    // USING LOGIN HOOK
+    login(email, password);
+
+    // navigate("/");
   };
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is Required!"),
@@ -77,6 +88,7 @@ function LoginPage() {
                   <button className="btn btn-warning ms-2" type="reset">
                     Reset
                   </button>
+                  {error && <p className="alert alert-danger mt-3">{error}</p>}
                 </Form>
               )}
             </Formik>

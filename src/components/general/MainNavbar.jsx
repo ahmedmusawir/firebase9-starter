@@ -2,9 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { useTheme } from "../../hooks/useTheme";
+import { useLogout } from "../../hooks/useLogout";
 
 function MainNavbar(props) {
   const { color, changeColor } = useTheme();
+  const { logout } = useLogout();
 
   return (
     // <Navbar bg="light" expand="md">
@@ -37,7 +39,7 @@ function MainNavbar(props) {
           <Nav.Link
             className="btn btn-danger py-2 px-3 ms-1 text-light"
             as={Link}
-            to="#"
+            onClick={logout}
           >
             Logout
           </Nav.Link>

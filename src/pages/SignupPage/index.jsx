@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSignup } from "../../hooks/useSignup";
 import { Row, Col } from "react-bootstrap";
 import Page from "../../components/layouts/Page";
 import Content from "../../components/layouts/Content";
@@ -8,19 +9,27 @@ import FormikControl from "../../components/formik/FormikControl";
 import * as Yup from "yup";
 
 function Signup() {
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const { error, signup } = useSignup();
+
   const navigate = useNavigate();
 
   //   FORMIK INFO
   const initialValues = {
     email: "",
     password: "",
-    username: "",
+    displayName: "",
   };
   const onSubmit = (values, { resetForm }) => {
     console.log(values);
     resetForm({ values: initialValues });
 
-    navigate("/");
+    const { email, password, displayName } = values;
+
+    signup(email, password, displayName);
+
+    // navigate("/");
   };
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is Required!"),
@@ -77,9 +86,9 @@ function Signup() {
                     <FormikControl
                       control="input"
                       type="text"
-                      name="username"
-                      label="User Name"
-                      placeholder="User Name"
+                      name="displayName"
+                      label="Display Name"
+                      placeholder="Display Name"
                       className="form-control"
                     />
                   </div>
@@ -90,6 +99,7 @@ function Signup() {
                   <button className="btn btn-warning ms-2" type="reset">
                     Reset
                   </button>
+                  {error && <p className="alert alert-danger mt-3">{error}</p>}
                 </Form>
               )}
             </Formik>

@@ -3,15 +3,18 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 import App from "./App";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { AuthContextProvider } from "./contexts/AuthContext";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <AuthContextProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </AuthContextProvider>
   </React.StrictMode>
 );
 
