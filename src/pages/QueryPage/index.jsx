@@ -3,11 +3,11 @@ import { Row, Col } from "react-bootstrap";
 import Page from "../../components/layouts/Page";
 import Content from "../../components/layouts/Content";
 import { Link } from "react-router-dom";
-import BlogIndex from "../../components/BlogIndex";
+import QueryIndex from "../../components/QueryIndex";
 import { useTheme } from "../../hooks/useTheme";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-function HomePage() {
+export default function QueryPage() {
   const { mode } = useTheme();
   const { user } = useAuthContext();
 
@@ -19,23 +19,13 @@ function HomePage() {
             width="w-100"
             cssClassNames={
               mode === "dark"
-                ? `bg-dark text-light clearfix ps-5 pt-5 pb-5`
+                ? `bg-dark text-light clearfix ps-5 pt-4`
                 : `bg-light clearfix ps-5 pt-5`
             }
           >
             <h3 className="text-bibo-color">
-              <i className="bi bi-fire"></i> Firebase 9 Starter
+              <i className="bi bi-fire"></i> Firebase 9 Queries
             </h3>
-            <h5>Project Name: Firebase 9 Start</h5>
-            <li>DB Name: Firebase 9 Start</li>
-            <li>Collection: posts</li>
-            {user && (
-              <div className="d-flex justify-content-end">
-                <Link to="/add-post" className="btn btn-info mt-2">
-                  <i className="bi bi-palette2 pe-2"></i> Add New Post
-                </Link>
-              </div>
-            )}
           </Content>
         </Col>
       </Row>
@@ -50,12 +40,10 @@ function HomePage() {
                 : `bg-light clearfix`
             }
           >
-            <BlogIndex />
+            <QueryIndex />
           </Content>
         </Col>
       </Row>
     </Page>
   );
 }
-
-export default HomePage;

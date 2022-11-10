@@ -7,13 +7,19 @@ import { doc, deleteDoc } from "firebase/firestore";
 import { useRealtimeData } from "../hooks/useRealtimeData";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function BlogIndex() {
   const { docs: posts, isPending } = useRealtimeData("posts");
+  const { user } = useAuthContext();
 
   const handleClickDelete = async (id) => {
     const ref = doc(db, "posts", id);
-    await deleteDoc(ref);
+    try {
+      await deleteDoc(ref);
+    } catch (error) {
+      console.log("Data delete error in Blogindex:", error.message);
+    }
   };
 
   const deletePost = (id) => {
@@ -41,22 +47,33 @@ function BlogIndex() {
       {posts &&
         posts.map((post) => (
           <React.Fragment key={post.id}>
-            <Row className="mb-2">
-              <Col sm={10}>
-                <Link to={`/post/${post.id}`}>
-                  <ListGroup.Item action>{post.title}</ListGroup.Item>
-                </Link>
-              </Col>
-              <Col sm={2}>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => deletePost(post.id)}
-                >
-                  <i className="bi bi-trash-fill pe-2"></i>
-                  Delete
-                </button>
-              </Col>
-            </Row>
+            {user && (
+              <Row className="mb-2">
+                <Col sm={10}>
+                  <Link to={`/post/${post.id}`}>
+                    <ListGroup.Item action>{post.title}</ListGroup.Item>
+                  </Link>
+                </Col>
+                <Col sm={2}>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deletePost(post.id)}
+                  >
+                    <i className="bi bi-trash-fill pe-2"></i>
+                    Delete
+                  </button>
+                </Col>
+              </Row>
+            )}
+            {!user && (
+              <Row className="mb-2">
+                <Col sm={12}>
+                  <Link to={`/post/${post.id}`}>
+                    <ListGroup.Item action>{post.title}</ListGroup.Item>
+                  </Link>
+                </Col>
+              </Row>
+            )}
           </React.Fragment>
         ))}
     </ListGroup>

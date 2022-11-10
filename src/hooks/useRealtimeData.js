@@ -10,16 +10,21 @@ export const useRealtimeData = (collectionName) => {
     let ref = collection(db, collectionName);
 
     setIsPending(true);
+    let unsub;
 
-    const unsub = onSnapshot(ref, (snapshot) => {
-      let results = [];
-      snapshot.docs.forEach((doc) => {
-        results.push({ id: doc.id, ...doc.data() });
+    try {
+      unsub = onSnapshot(ref, (snapshot) => {
+        let results = [];
+        snapshot.docs.forEach((doc) => {
+          results.push({ id: doc.id, ...doc.data() });
+        });
+        setDocs(results);
+
+        setIsPending(false);
       });
-      setDocs(results);
-
-      setIsPending(false);
-    });
+    } catch (error) {
+      console.log("Data read error in useRealtimeData hook:", error.message);
+    }
 
     return () => unsub();
   }, [collectionName]);

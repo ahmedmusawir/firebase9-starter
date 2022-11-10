@@ -19,22 +19,30 @@ function EditForm({ id }) {
 
     setIsPending(true);
 
-    const unsub = onSnapshot(ref, (doc) => {
-      setSinglePost(doc.data());
-      setIsPending(false); // has to be inside the function. otherwise spinner won't show up
-    });
+    let unsub;
+    try {
+      unsub = onSnapshot(ref, (doc) => {
+        setSinglePost(doc.data());
+        setIsPending(false); // has to be inside the function. otherwise spinner won't show up
+      });
+    } catch (error) {
+      console.log("Getting SinglePost error from EditForm:", error.message);
+    }
 
     return () => unsub();
   }, [id]);
 
   // INSERTING DATA INTO FIRESTORE DB
-  const postData = (editedPost) => {
+  const postData = async (editedPost) => {
     // CREATING DB REF W/ COLLECTION
     const ref = doc(db, "posts", id);
     // UPDATING DATA IN DB
-    updateDoc(ref, editedPost).then(() => {
+    try {
+      await updateDoc(ref, editedPost);
       console.log("Data Updated", editedPost);
-    });
+    } catch (error) {
+      console.log("Data update error in EditForm:", error.message);
+    }
   };
 
   // FORMIK INFO

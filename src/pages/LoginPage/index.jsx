@@ -22,7 +22,7 @@ function LoginPage() {
   };
   const onSubmit = (values, { resetForm }) => {
     console.log(values);
-    resetForm({ values: initialValues });
+    // resetForm({ values: initialValues });
 
     // DESTRUCTURING EMAIL & PASSWORD
     const { email, password } = values;

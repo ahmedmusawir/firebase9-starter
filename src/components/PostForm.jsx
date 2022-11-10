@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import FormikControl from "./formik/FormikControl";
@@ -12,10 +12,15 @@ function PostForm() {
   const postData = async (post) => {
     const ref = collection(db, "posts");
 
-    await addDoc(ref, {
-      title: post.title,
-      body: post.body,
-    });
+    try {
+      await addDoc(ref, {
+        title: post.title,
+        body: post.body,
+      });
+      console.log("Data insert successful");
+    } catch (error) {
+      console.log("Data insert error in PostForm:", error.message);
+    }
   };
 
   //   FORMIK INFO
