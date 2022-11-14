@@ -20,7 +20,26 @@ export default function PaginatedIndex() {
   const [error, setError] = useState(null);
   const [lastDoc, setLastDoc] = useState(null);
 
-  const updateState = (q) => {
+  const updateState = (q) => {};
+
+  const getData = () => {
+    setIsPending(true);
+    // QUERIES
+    // const q = query(ref, orderBy("createdAt", "desc"));
+    const q = query(ref, orderBy("createdAt", "desc"), limit(3));
+
+    // const unsub = onSnapshot(q, (snapshot) => {
+    //   const data = snapshot.docs.map((post) => post.data());
+    //   console.log("Post Data:", data);
+    //   const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+    //   if (!posts) {
+    //     setPosts(data);
+    //   } else {
+    //     setPosts((posts) => [posts, ...data]);
+    //   }
+    //   setLastDoc(lastDoc);
+    // });
+
     const unsub = onSnapshot(q, (snapshot) => {
       try {
         let results = [];
@@ -46,8 +65,7 @@ export default function PaginatedIndex() {
   };
 
   useEffect(() => {
-    const q = query(ref, orderBy("createdAt", "desc"), limit(3));
-    const unsub = updateState(q);
+    const unsub = getData();
     return () => unsub();
   }, []);
 
@@ -60,7 +78,22 @@ export default function PaginatedIndex() {
       limit(3),
       startAfter(lastDoc)
     );
-    updateState(q);
+    onSnapshot(q, (snapshot) => {
+      try {
+        let results = [];
+        snapshot.docs.forEach((doc) => {
+          results.push({ id: doc.id, ...doc.data() });
+        });
+        const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+        setLastDoc(lastDoc);
+        setPosts((posts) => [...posts, ...results]);
+      } catch (error) {
+        console.log("useQuery Get Data Error", error.message);
+        setError(error.message);
+      }
+
+      setIsPending(false);
+    });
   };
 
   return (
