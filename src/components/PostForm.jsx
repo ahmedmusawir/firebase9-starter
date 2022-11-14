@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import FormikControl from "./formik/FormikControl";
 import * as Yup from "yup";
 import { db } from "../firebase/config";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 function PostForm() {
   const navigate = useNavigate();
@@ -16,8 +16,10 @@ function PostForm() {
       await addDoc(ref, {
         title: post.title,
         body: post.body,
+        createdAt: Timestamp.now(),
       });
       console.log("Data insert successful");
+      return null;
     } catch (error) {
       console.log("Data insert error in PostForm:", error.message);
     }

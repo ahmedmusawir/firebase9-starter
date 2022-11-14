@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import QueryPage from "./pages/QueryPage";
 import ThemeSelector from "./components/general/ThemeSelector";
 import { useTheme } from "./hooks/useTheme";
+import PaginationPage from "./pages/PaginationPage";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./App.scss";
 
@@ -32,6 +33,7 @@ function App() {
             {user && <Route path="/add-post/" element={<AddPostPage />} />}
             {user && <Route path="/edit-post/:id" element={<EditPostPage />} />}
             <Route path="/sample-page" element={<SamplePage />} />
+            <Route path="/pagination" element={<PaginationPage />} />
             <Route
               path="/signup"
               element={user ? <Navigate to="/" /> : <SignupPage />}

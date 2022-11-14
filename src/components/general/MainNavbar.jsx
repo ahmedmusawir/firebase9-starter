@@ -26,6 +26,11 @@ function MainNavbar(props) {
             </Nav.Link>
           </Nav>
           <Nav className="">
+            <Nav.Link as={Link} to="/pagination">
+              Pagination Page
+            </Nav.Link>
+          </Nav>
+          <Nav className="">
             <Nav.Link as={Link} to="/sample-page">
               Sample Page
             </Nav.Link>
