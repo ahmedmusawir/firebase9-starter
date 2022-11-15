@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
-import { ListGroup, Spinner } from "react-bootstrap";
+import { Row, Col, ListGroup, Spinner } from "react-bootstrap";
 import { db } from "../firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
 import { useRealtimeData } from "../hooks/useRealtimeData";
